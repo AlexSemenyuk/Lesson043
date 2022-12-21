@@ -1,11 +1,13 @@
 /*
-* Java. Lesson043. Task01
+* Java. Lesson044. Task01
 * Створити БД movies
 * Semenyuk Alexander
-* Date 17.12.2022
-* Створити бд movies
-* В базі створити 4 таблиці, як показано на схемі https://drawsql.app/teams/maxchv/diagrams/alter-and-insert-task
-* Прислати sql запити на перевірку
+* Date 21.12.2022
+* Створити базу даних фільмів за діаграмою https://drawsql.app/teams/maxchv/diagrams/hw02
+* Для перевірки результату заповнити діаграму даними (за допомогою плагіна Intellij IDEA).
+* На перевірку надіслати DDL команди створення.
+* Додаткове завдання:
+* додати правило на зовнішні ключі, що дозволяє оновлювати первинні ключі таблиць, на які є посилання
  */
 CREATE DATABASE myDataBase default char set utf8;
 USE myDataBase;
@@ -54,9 +56,11 @@ create table movies_genres
 
 alter table movies_genres
     add constraint movies_genres_movies_fk
-        foreign key (movie_id) references movies (id),
+        foreign key (movie_id) references movies (id)
+            on update cascade,
     add constraint movies_genres_genres_fk
-        foreign key (genre_id) references genres (id);
+        foreign key (genre_id) references genres (id)
+            on update cascade;
 
 create table movies_actors
 (
@@ -67,10 +71,22 @@ create table movies_actors
 
 alter table movies_actors
     add constraint movies_actors_movies_fk
-        foreign key (movie_id) references movies (id),
+        foreign key (movie_id) references movies (id)
+            on update cascade,
     add constraint movies_actors_actors_fk
-        foreign key (actor_id) references actors (id);
+        foreign key (actor_id) references actors (id)
+            on update cascade;
 /*
+alter table movies_genres
+    drop constraint movies_genres_movies_fk;
+alter table movies_genres
+    drop constraint movies_genres_genres_fk;
+
+alter table movies_actors
+    drop constraint movies_actors_movies_fk;
+alter table movies_actors
+    drop constraint movies_actors_actors_fk;
+
 drop table movies;
 drop table movies_genres;
 drop table movies_actors;
